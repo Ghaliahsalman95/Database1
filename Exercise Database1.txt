@@ -51,8 +51,7 @@ alter table products MODIFY price int default  0;
 create table order_items(
     quantity int,
 order_ID int ,foreign key (order_ID) references `orders`(ID),
-    product_ID int ,foreign key(product_ID)references products(ID),
-    primary key (product_ID,order_ID)
+    product_ID int ,foreign key(product_ID)references products(ID)
 );
 
 alter table  order_items MODIFY  quantity int default  0;

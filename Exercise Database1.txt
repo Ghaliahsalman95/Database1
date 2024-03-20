@@ -4,64 +4,80 @@ create database Store;
 ################################## TABLE COUNTRIES ######################
 create table countries(
     code int primary key ,
-    name varchar(20) not null unique ,
-    constraint_name varchar(20) not null
+    name varchar(20) not null  ,
+    constraint_name varchar(20)
 );
+
+###############
+
+    alter table countries add unique countries(name);
+alter table countries  MODIFY constraint_name varchar(20) not null ;
 ################################## TABLE USERS #########################
 
 create table users (
     ID int primary key ,
-    full_name varchar(20),email varchar(20) unique ,
-    gender char check ( gender='m'or gender ='f' ), date_of_birth varchar(15),created_at datetime default CURRENT_TIMESTAMP,
+    full_name varchar(20),email varchar(20)  ,
+    gender char , date_of_birth varchar(15),created_at datetime default CURRENT_TIMESTAMP,
     country_code int , foreign key (country_code) references countries(code)
 );
+alter table users add constraint unique users(email);
+alter table users  add check ( gender='m'or gender ='f' );
+
 ################################## TABLE ORDER #########################
 
-create table `order` (
+create table `orders` (
     ID int primary key , user_ID int ,
-    status varchar(10) check ( status='finish' or status ='start' ), created_at datetime default CURRENT_TIMESTAMP,
+    status varchar(10) , created_at datetime default CURRENT_TIMESTAMP,
   foreign key (user_ID) references users(ID)
 );
+alter table orders add check ( status='finish' or status ='start' );
+
+
 ############################
 
-select * from `order`;
+select * from `orders`;
 
 ################################## TABLE ORDER #########################
 
 Create table products (
     ID int primary key ,
-    name varchar(10) not null ,price int default 0,
-    status varchar(10) check ( status ='valid' or status='expired')
-    );
-
+    name varchar(10) ,price int ,
+    status varchar(10) );
+alter table products add check ( status ='valid' or status='expired');
+alter table products MODIFY name varchar(10 )not null;
+alter table products MODIFY price int default  0;
+#############################################################
 create table order_items(
-    quantity int default 0,
-order_ID int ,foreign key (order_ID) references `order`(ID),
+    quantity int,
+order_ID int ,foreign key (order_ID) references `orders`(ID),
     product_ID int ,foreign key(product_ID)references products(ID),
     primary key (product_ID,order_ID)
 );
+
+alter table  order_items MODIFY  quantity int default  0;
+
 ###################################### 1. Add new row to the countries table.
  insert into countries (code, name, constraint_name) values (7,'Saudi','kingdom of Saudi ');
 ##################################### 2. Add new row to the users table.
 insert into users (ID, full_name, email, gender, date_of_birth) values (2,'Ghaliah','Ghaliah@gmail.com','f','1995-10-1');
 ##################################### 3. Add new row to the orders table.
-insert into `order`(ID,user_ID,status) values (1,2,'finish');
+insert into `orders`(ID,user_ID,status) values (1,2,'finish');
 ##################################### 4. Add new row to the products table.
 insert into products (ID, name, price, status) values (4,'pro123',10,'valid');
 insert into products (ID, name, price, status) values (10,'pro123',10,'expired');
 ##################################### 5. Add new row to the order_products table.
 insert into order_items (order_ID, product_ID,quantity) values (1,4,5);
 ##################################### 6. Update row from countries table.
-    update countries set name='saudi arabia';
+    update countries set name='saudi arabia' where code=7;
 ##################################### 7. Delete row from products table.
 select *
 from products
 where status ='expired';
 select * from countries;
-select * from `order`;
+select * from `orders`;
 select * from order_items;
 select * from products;
 
-
+#########################################################
 
 

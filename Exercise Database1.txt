@@ -42,10 +42,11 @@ select * from `orders`;
 Create table products (
     ID int primary key ,
     name varchar(10) ,price int ,
-    status varchar(10) );
+    status varchar(10) ,created_at datetime default CURRENT_TIMESTAMP);
 alter table products add check ( status ='valid' or status='expired');
 alter table products MODIFY name varchar(10 )not null;
 alter table products MODIFY price int default  0;
+
 #############################################################
 create table order_items(
     quantity int,
